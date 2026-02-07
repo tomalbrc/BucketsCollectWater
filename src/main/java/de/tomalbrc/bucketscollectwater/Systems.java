@@ -1,5 +1,7 @@
 package de.tomalbrc.bucketscollectwater;
 
+import com.hypixel.hytale.builtin.adventure.farming.FarmingSystems;
+import com.hypixel.hytale.builtin.adventure.farming.FarmingUtil;
 import com.hypixel.hytale.builtin.adventure.farming.config.modifiers.WaterGrowthModifierAsset;
 import com.hypixel.hytale.builtin.weather.resources.WeatherResource;
 import com.hypixel.hytale.component.*;
@@ -119,7 +121,8 @@ public class Systems {
         var worldTimeResource = world.getEntityStore().getStore().getResource(WorldTimeResource.getResourceType());
         Instant currentTime = worldTimeResource.getGameTime();
 
-        BlockType blockType = BlockType.getAssetMap().getAsset(blockSection.get(x, y, z));
+        int blockAssetId = blockSection.get(x, y, z);
+        BlockType blockType = BlockType.getAssetMap().getAsset(blockAssetId);
         if (blockType == null || blockType.getItem() == null) return;
 
         float currentProgress = bucketBlock.getFillProgress();
@@ -165,7 +168,7 @@ public class Systems {
                     commandBuffer.getExternalData().getWorld().getEntityStore().getStore()
             );
         } else if (remainingDurationSeconds > 0) {
-            if (checkIfRaining(commandBuffer, sectionRef, x, y, z)) {
+            if (checkIfRaining(commandBuffer, sectionRef, x, y, z, blockAssetId)) {
                 currentProgress += (float) (remainingTimeSeconds / baseDuration);
                 bucketBlock.setFillProgress(currentProgress);
             }
@@ -173,8 +176,7 @@ public class Systems {
             blockSection.scheduleTick(ChunkUtil.indexBlock(x, y, z), currentTime.plus(2, ChronoUnit.MINUTES)); // in-game minutes
         }
     }
-
-    static boolean checkIfRaining(CommandBuffer<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, int x, int y, int z) {
+    static boolean checkIfRaining(CommandBuffer<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, int x, int y, int z, int blockIdx) {
         var asset = WaterGrowthModifierAsset.getAssetMap().getAsset(WATER_ASSET_NAME); // we re-use tilled soil mechanics
         if (!(asset instanceof WaterGrowthModifierAsset waterGrowthModifierAsset)) return false;
 
@@ -191,6 +193,17 @@ public class Systems {
         int environment = blockChunk.getEnvironment(x, y, z);
         int weatherId = weatherResource.getForcedWeatherIndex() != 0 ? weatherResource.getForcedWeatherIndex() : weatherResource.getWeatherIndexForEnvironment(environment);
 
-        return waterGrowthModifierAsset.getWeatherIds().contains(weatherId);
+        if (waterGrowthModifierAsset.getWeatherIds().contains(weatherId)) {
+            boolean unobstructed = true;
+            for (int searchY = y + 1; searchY < 320; ++searchY) {
+                int block = blockChunk.getBlock(x, searchY, z);
+                if (block == 0 || block == blockIdx) continue;
+                unobstructed = false;
+                break;
+            }
+            return unobstructed;
+        }
+
+        return false;
     }
 }

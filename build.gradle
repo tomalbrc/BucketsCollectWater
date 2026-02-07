@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'de.tomalbrc.bucketscollectwater'
-version = '1.0.0'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
@@ -27,22 +27,6 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
     }
-}
-
-shadowJar {
-    archiveClassifier.set('')
-
-    dependencies {
-        exclude(dependency { it.moduleGroup == 'com.hypixel' })
-    }
-}
-
-tasks.named('jar') {
-    enabled = false
-}
-
-tasks.named('build') {
-    dependsOn shadowJar
 }
 
 def serverRunDir = file("$projectDir/run")
