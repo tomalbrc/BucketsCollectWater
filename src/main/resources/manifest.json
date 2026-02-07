@@ -1,0 +1,15 @@
+{
+  "Group": "de.tomalbrc",
+  "Name": "BucketsCollectWater",
+  "Version": "1.0.0",
+  "Description": "Placed Buckets Collect Water!",
+  "Authors": [
+    {
+      "Name": "tomalbrecht"
+    }
+  ],
+  "Main": "de.tomalbrc.bucketscollectwater.BucketsCollectWaterPlugin",
+  "Dependencies": {
+    "Hytale:BlockModule": "*"
+  }
+}
