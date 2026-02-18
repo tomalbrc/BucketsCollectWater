@@ -1,7 +1,6 @@
 package de.tomalbrc.bucketscollectwater;
 
 import com.hypixel.hytale.component.ComponentType;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -9,7 +8,6 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import javax.annotation.Nonnull;
 
 public class BucketsCollectWaterPlugin extends JavaPlugin {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static BucketsCollectWaterPlugin instance;
 
     private ComponentType<ChunkStore, WaterCollectingBucketBlock> waterCollectingBucketComponentType;

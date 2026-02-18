@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'de.tomalbrc.bucketscollectwater'
-version = '1.0.1'
+version = '1.0.2'
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.hypixel.hytale:Server:2026.01.24-6e2d4fc36'
+    implementation 'com.hypixel.hytale:Server:latest.release'
 }
 
 java {
@@ -34,7 +34,7 @@ idea.project.settings.runConfigurations {
     'HytaleServer'(org.jetbrains.gradle.ext.Application) {
         mainClass = 'com.hypixel.hytale.Main'
         moduleName = project.idea.module.name + '.main'
-        programParameters = "--allow-op --disable-sentry --assets=\"/Users/tomalbrecht/Library/Application Support/Hytale/install/release/package/game/latest/Assets.zip\" --mods=${file("src/main/").absolutePath} --auth-mode=authenticated"
+        programParameters = "--allow-op --assets=\"/Users/tomalbrecht/Library/Application Support/Hytale/install/release/package/game/latest/Assets.zip\" --mods=${file("src/main/").absolutePath} --auth-mode=authenticated"
         workingDirectory = serverRunDir.absolutePath
     }
 }

@@ -1,7 +1,5 @@
 package de.tomalbrc.bucketscollectwater;
 
-import com.hypixel.hytale.builtin.adventure.farming.FarmingSystems;
-import com.hypixel.hytale.builtin.adventure.farming.FarmingUtil;
 import com.hypixel.hytale.builtin.adventure.farming.config.modifiers.WaterGrowthModifierAsset;
 import com.hypixel.hytale.builtin.weather.resources.WeatherResource;
 import com.hypixel.hytale.component.*;
@@ -47,7 +45,7 @@ public class Systems {
             assert (info != null);
             BlockChunk blockChunk = commandBuffer.getComponent(info.getChunkRef(), BlockChunk.getComponentType());
 
-            if (farmingBlock.getLastTickGameTime() == null) {
+            if (blockChunk != null && farmingBlock.getLastTickGameTime() == null) {
                 farmingBlock.setLastTickGameTime(store.getExternalData().getWorld().getEntityStore().getStore().getResource(WorldTimeResource.getResourceType()).getGameTime());
                 blockChunk.markNeedsSaving();
             }
@@ -144,7 +142,7 @@ public class Systems {
         }
 
         long remainingTimeSeconds = currentTime.getEpochSecond() - bucketBlock.getLastTickGameTime().getEpochSecond();
-        Rangef range = new Rangef((60*60)*2, (60*60)*3); // in-game time
+        Rangef range = new Rangef((60*20), (60*30)); // 20-30mins in-game time
 
         double rand = HashUtil.random(5, worldX, worldY, worldZ);
         double baseDuration = range.min + (range.max - range.min) * rand;
@@ -167,15 +165,25 @@ public class Systems {
                     worldX, worldY, worldZ,
                     commandBuffer.getExternalData().getWorld().getEntityStore().getStore()
             );
-        } else if (remainingDurationSeconds > 0) {
-            if (checkIfRaining(commandBuffer, sectionRef, x, y, z, blockAssetId)) {
-                currentProgress += (float) (remainingTimeSeconds / baseDuration);
-                bucketBlock.setFillProgress(currentProgress);
+        } else {
+            if (remainingDurationSeconds > 0) {
+                if (checkIfRaining(commandBuffer, sectionRef, x, y, z, blockAssetId)) {
+                    currentProgress += (float) (remainingTimeSeconds / baseDuration);
+                    bucketBlock.setFillProgress(currentProgress);
+                }
+            } else {
+                if (checkIfRaining(commandBuffer, sectionRef, x, y, z, blockAssetId)) {
+                    if (baseDuration > 0) {
+                        currentProgress += (float) (remainingTimeSeconds / baseDuration);
+                        bucketBlock.setFillProgress(currentProgress);
+                    }
+                }
             }
 
             blockSection.scheduleTick(ChunkUtil.indexBlock(x, y, z), currentTime.plus(2, ChronoUnit.MINUTES)); // in-game minutes
         }
     }
+
     static boolean checkIfRaining(CommandBuffer<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, int x, int y, int z, int blockIdx) {
         var asset = WaterGrowthModifierAsset.getAssetMap().getAsset(WATER_ASSET_NAME); // we re-use tilled soil mechanics
         if (!(asset instanceof WaterGrowthModifierAsset waterGrowthModifierAsset)) return false;

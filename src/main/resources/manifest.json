@@ -1,7 +1,8 @@
 {
   "Group": "de.tomalbrc",
   "Name": "BucketsCollectWater",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
+  "ServerVersion": "2026.02.18-f3b8fff95",
   "Description": "Placed Buckets Collect Water!",
   "Authors": [
     {
