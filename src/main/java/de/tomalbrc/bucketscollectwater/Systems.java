@@ -142,7 +142,7 @@ public class Systems {
         }
 
         long remainingTimeSeconds = currentTime.getEpochSecond() - bucketBlock.getLastTickGameTime().getEpochSecond();
-        Rangef range = new Rangef((60*20), (60*30)); // 20-30mins in-game time
+        Rangef range = new Rangef((60*10), (60*15)); // 20-30mins in-game time
 
         double rand = HashUtil.random(5, worldX, worldY, worldZ);
         double baseDuration = range.min + (range.max - range.min) * rand;
