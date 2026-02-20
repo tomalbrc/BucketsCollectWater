@@ -1,17 +1,20 @@
 {
-  "Group": "tomalbrc",
-  "Name": "BucketsCollectWater",
-  "Version": "1.0.3",
-  "ServerVersion": "2026.02.19-1a311a592",
+  "Group": "${group}",
+  "Name": "${name}",
+  "Version": "${version}",
+  "ServerVersion": "${hytale_version}",
   "Description": "Placed Buckets Collect Water when it rains!",
   "Authors": [
     {
       "Name": "tomalbrc"
     }
   ],
-  "Main": "de.tomalbrc.bucketscollectwater.BucketsCollectWaterPlugin",
+  "Website": "hytaleheroes.gg",
   "Dependencies": {
     "Hytale:BlockModule": "*"
   },
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "Main": "${entry_point}",
   "IncludesAssetPack": true
 }
