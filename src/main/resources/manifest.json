@@ -1,20 +1,20 @@
 {
-  "Group": "${group}",
-  "Name": "${name}",
-  "Version": "${version}",
-  "ServerVersion": "${hytale_version}",
-  "Description": "Placed Buckets Collect Water when it rains!",
-  "Authors": [
-    {
-      "Name": "tomalbrc"
-    }
-  ],
-  "Website": "https://discord.gg/9X6w2kfy89",
-  "Dependencies": {
-    "Hytale:BlockModule": "*"
-  },
-  "OptionalDependencies": {},
-  "DisabledByDefault": false,
-  "Main": "${entry_point}",
-  "IncludesAssetPack": true
+    "Group": "${group}",
+    "Name": "${name}",
+    "Version": "1.0.7",
+    "Description": "Placed Buckets Collect Water when it rains!",
+    "Authors": [
+        {
+            "Name": "tomalbrc"
+        }
+    ],
+    "Website": "https://discord.gg/9X6w2kfy89",
+    "DisabledByDefault": false,
+    "IncludesAssetPack": true,
+    "Dependencies": {
+        "Hytale:BlockModule": "*"
+    },
+    "OptionalDependencies": {},
+    "ServerVersion": "${hytale_version}",
+    "Main": "${entry_point}"
 }
